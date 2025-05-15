@@ -15,19 +15,24 @@ int tablaDeProductos(int cont, char producto[5][50], int cantidad[5], float tiem
 int editarProducto(int cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], int recursos[5], int opc1);
 int eliminarProducto(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], int recursos[5], int opc1);
 void mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], int recursos[5]);
-
-char producto[5][50];
-int cantidad[5];
-float tiempo[5];
-float tiempoLim[5];
-int recursos[5];
-int opc, opc1, cont = 0, tp;
+int registrarInventario(char nombresInv[5][50], int cantInv[5], int *contInv);
+int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5]);
 
 int main(int argc, char *argv[])
 {
-
+    char producto[5][50];
+    int cantidad[5];
+    float tiempo[5];
+    float tiempoLim[5];
+    int recursos[5];
+    char nombresInv[5][50];
+    int cantInv[5];
+    int opc, opc1, cont = 0, contInv=0, tp;
+    registrarInventario(nombresInv, cantInv, &contInv);
+    tablaDeInventario(&contInv, nombresInv, cantInv);
     do
     {
+
         opc = menu();
 
         switch (opc)
@@ -63,11 +68,61 @@ int main(int argc, char *argv[])
 
     return 0;
 }
-
+int registrarInventario(char nombresInv[5][50], int cantInv[5], int *contInv)
+{
+    int cont1, v, opc, v1;
+    if (*contInv > 5)
+    {
+        printf("El inventario esta lleno\n");
+    }
+    else
+    {
+        do
+        {
+            printf("Ingrese el nombre del componente %d: ", *contInv + 1);
+            fgets(nombresInv[*contInv], 50, stdin);
+            nombresInv[*contInv][strcspn(nombresInv[*contInv], "\n")] = 0;
+            printf("Ingrese la cantidad de %s disponible: ", nombresInv[*contInv]);
+            do
+            {
+                fflush(stdin);
+                v = scanf("%d", &cantInv[*contInv]);
+                if (v != 1)
+                {
+                    printf("Error al ingresar la cantidad, se deben ingresar solo numeros enteros\n");
+                }
+            } while (v != 1);
+            *contInv++;
+            printf("\nDesea agregar otro componente? (1) si (2) no\n");
+            {
+                fflush(stdin);
+                v1 = scanf("%d", &opc);
+                if (opc!=1 || opc!=2)
+                {
+                    printf("Error al ingresar la opcion, porfavor ingrese 1 o 2\n");
+                }
+                
+                if (v1 != 1)
+                {
+                    printf("Error al ingresar la opcion, solo se admiten numeros enteros\n");
+                }
+            }
+            while (v1 != 1);
+        } while (opc != 2);
+    }
+}
+int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5]){
+    printf("#\t\tNombre del componente\t\t\t\tStock");
+    for (int i = 0; i <= *contInv; i++)
+    {
+        printf("\n%d\t\t%s\t\t\t\t\t\t%d", i + 1, nombresInv[i], cantInv[i]);
+    }
+    
+}
 int menu()
 {
     int opc, v1;
-    printf("\n****MENU****\n");
+    printf("\n****MENU DE ****\n");
     printf("1. Registrar un producto\n");
     printf("2. Mostrar informacion del producto\n");
     printf("3. Edicion de un producto\n");
