@@ -329,26 +329,35 @@ int eliminarProducto(int *cont, char producto[5][50], int cantidad[5], float tie
 }
 void mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], int recursos[5])
 {
-    char tex;
-    int tiemTotal;
+    char tex[2][3] = { "Si", "No" };
+    int tiemTotal,ind;
     if (*cont == 0)
     {
         printf("No hay productos registrados.\n");
     }
     else
     {
+
         printf("Productos registrados:\n");
         for (int i = 0; i < *cont; i++)
         {
-            tiemTotal=tiempo[i]*cantidad[i];
-                   
+            tiemTotal = tiempo[i] * cantidad[i];
+            if (tiemTotal <= tiempoLim[i])
+            {
+                ind=0;
+            }
+            else
+            {
+                ind=1;
+            }
             printf("Producto %d: %s\n", i + 1, producto[i]);
             printf("Cantidad: %d\n", cantidad[i]);
             printf("Tiempo: %.2f\n", tiempo[i]);
             printf("Tiempo Limite: %.2f\n", tiempoLim[i]);
             printf("Recursos: %d\n", recursos[i]);
-            printf("La fabrica %s cumple con la demanda necesaria para producir %d", tex,cantidad[i]);
+            printf("La fabrica %s cumple con la demanda necesaria para producir %d productos de %s\n", tex[ind], cantidad[i],producto[i]);
+            printf("----------------------------------------------------------------------------------------\n");
         }
-        printf("");
+
     }
 }
