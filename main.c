@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
             break;
         case 8:
             tp1 = 2;
-            tablaDeInventario(&contInv, nombresInv, cantInv, tp1);
+            opc2 = tablaDeInventario(&contInv, nombresInv, cantInv, tp1);
             reabastecerInv(nombresInv, cantInv, opc2);
             break;
         case 9:
@@ -126,7 +126,7 @@ int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5], int 
     printf("#\t\tNombre del componente\t\t\t\tStock");
     for (int i = 0; i < *contInv; i++)
     {
-        printf("\n%d\t\t%s\t\t\t\t\t\t%d", i + 1, nombresInv[i], cantInv[i]);
+        printf("\n%d\t\t%s\t\t\t\t\t\t%d\n", i + 1, nombresInv[i], cantInv[i]);
     }
     if (tp1 == 2)
     {
