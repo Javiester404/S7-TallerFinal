@@ -35,9 +35,7 @@ int main(int argc, char *argv[])
     registrarInventario(nombresInv, cantInv, &contInv);
     do
     {
-
         opc = menu();
-
         switch (opc)
         {
         case 1:
@@ -96,17 +94,14 @@ int registrarInventario(char nombresInv[5][50], int cantInv[5], int *contInv)
         fflush(stdin);
         fgets(nombresInv[i], 50, stdin);
         nombresInv[i][strcspn(nombresInv[i], "\n")] = 0;
-
-        printf("Ingrese la cantidad de %s disponible: ", nombresInv[i]);
-
         do
         {
+            printf("Ingrese la cantidad de %s disponible: ", nombresInv[i]);
             v = scanf("%d", &cantInv[i]);
             if (v != 1)
             {
                 printf("Error al ingresar la cantidad, se deben ingresar solo numeros enteros\n");
-                while (getchar() != '\n')
-                    ;
+                while (getchar() != '\n');
             }
             else if (cantInv[i] < 0)
             {
@@ -117,12 +112,12 @@ int registrarInventario(char nombresInv[5][50], int cantInv[5], int *contInv)
         (*contInv)++;
         if (*contInv >= 5)
         {
-            printf("\nEl inventario ha alcanzado su capacidad maxima.\n");
+            printf("\nEl inventario ha alcanzado su capacidad maxima\n");
             break;
         }
     }
 
-    printf("Inventario registrado correctamente.\n");
+    printf("Inventario registrado correctamente\n");
 }
 
 int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5], int tp1)
@@ -604,7 +599,7 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
                 {
                     cantInv[i] -= compoTotales[i];
                 }
-                eliminarProducto(&cont, producto, cantidad, tiempo, tiempoLim, nombresInv, comProdu, &contInv, opc1);
+                eliminarProducto(cont, producto, cantidad, tiempo, tiempoLim, nombresInv, comProdu, contInv, opc1);
             }
         }
         else
