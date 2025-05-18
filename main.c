@@ -123,11 +123,15 @@ int registrarInventario(char nombresInv[5][50], int cantInv[5], int *contInv)
 int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5], int tp1)
 {
     int v, opc2;
-    printf("#\t\tNombre del componente\t\t\t\tStock");
-    for (int i = 0; i < *contInv; i++)
-    {
-        printf("\n%d\t\t%s\t\t\t\t\t\t%d\n", i + 1, nombresInv[i], cantInv[i]);
-    }
+printf("-------------------------------------------------------------\n");
+printf("| #  | Nombre del componente             | Stock            |\n");
+printf("-------------------------------------------------------------\n");
+for (int i = 0; i < *contInv; i++)
+{
+    printf("| %-2d | %-32s | %-16d |\n", i + 1, nombresInv[i], cantInv[i]);
+}
+printf("-------------------------------------------------------------\n");
+
     if (tp1 == 2)
     {
         do
@@ -560,10 +564,6 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
                 if (compoTotales[i] <= cantInv[i])
                 {
                     confir++;
-                }
-                else
-                {
-                    printf("No hay suficiente %s para producir %d unidades de %s.\n", nombresInv[i], cantidad[n], producto[n]);
                 }
             }
         }
