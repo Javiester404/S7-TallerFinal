@@ -1,0 +1,10 @@
+int menu();
+void registrarProducto(char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], int comProdu[5][5], char nombresInv[5][50], int *cont, int *contInv);
+int tablaDeProductos(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], int comProdu[5][5], char nombresInv[5][50], int *contInv, int tp);
+int editarProducto(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], char nombresInv[5][50], int comProdu[5][5], int *contInv, int opc1);
+int eliminarProducto(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], char nombresInv[5][50], int comProdu[5][5], int *contInv, int opc1);
+int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], char nombresInv[5][50], int comProdu[5][5], int cantInv[5], int *contInv, int opc1, char nombPedidos[10][50], int cantPedidos[10], int *contPedidos);
+int registrarInventario(char nombresInv[5][50], int cantInv[5], int *contInv);
+int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5], int tp1);
+void mostrarPedidos(char nombPedidos[10][50], int cantPedidos[10], int *contPedidos);
+void reabastecerInv(char nombresInv[5][50], int cantInv[5], int opc2);
