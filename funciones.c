@@ -392,8 +392,8 @@ int eliminarProducto(int *cont, char producto[5][50], int cantidad[5], float tie
     }
     producto[*cont - 1][0] = '\0';
     cantidad[*cont - 1] = 0;
-    tiempo[*cont - 1] = 0.0f;
-    tiempoLim[*cont - 1] = 0.0f;
+    tiempo[*cont - 1] = 0.0;
+    tiempoLim[*cont - 1] = 0.0;
     for (int i = 0; i < *contInv; i++)
     {
         comProdu[*cont - 1][i] = 0;
@@ -405,8 +405,8 @@ int eliminarProducto(int *cont, char producto[5][50], int cantidad[5], float tie
 
 int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], char nombresInv[5][50], int comProdu[5][5], int cantInv[5], int *contInv, int opc1, char nombPedidos[10][50], int cantPedidos[10], int *contPedidos)
 {
-    char tex[2][3] = {"Si", "No"};
-    int tiemTotal, ind, n = opc1 - 1, confir = 0, v, opc,v3,v4;
+    char tex[2][3] = {"SI", "NO"};
+    int tiemTotal, ind, ind2, n = opc1 - 1, confir = 0, v, opc,v3,v4;
     int compoTotales[5];
     if (*cont == 0)
     {
@@ -443,7 +443,7 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
                 printf("No se admiten tiempos limite de produccion negativos\n");
             }
         } while (v4 != 1 || tiempoLim[*cont] < 0);
-        printf("Resumen del Producto\n");
+        printf("***********Resumen del Producto***********\n");
         printf("Producto seleccionado: %s\n", producto[n]);
         printf("Cantidad: %d\n", cantidad[n]);
         printf("Tiempo de fabricacion: %.2f\n", tiempo[n]);
@@ -458,26 +458,36 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
         if (tiemTotal <= tiempoLim[n])
         {
             ind = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                compoTotales[i] = comProdu[n][i] * cantidad[n];
-            }
-            for (int i = 0; i < 5; i++)
-            {
-                if (compoTotales[i] <= cantInv[i])
-                {
-                    confir++;
-                }
-            }
         }
         else
         {
             ind = 1;
         }
-        printf("La fabrica %s cumple con el tiempo necesario para producir %d %s\n", tex[ind], cantidad[n], producto[n]);
-        if (confir == 5)
+        for (int i = 0; i < 5; i++)
         {
-            printf("La fabrica tiene suficiente inventario para producir %d %s.\n", cantidad[n], producto[n]);
+            compoTotales[i] = comProdu[n][i] * cantidad[n];
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            if (compoTotales[i] <= cantInv[i])
+            {
+                confir++;
+            }
+            if (confir == 5)
+            {
+                ind2 = 0;
+            }
+            else if (confir != 5)
+            {
+                ind2 = 1;
+            }
+            
+            
+        }
+        printf("La fabrica %s cumple con el tiempo necesario para producir %d %s\n", tex[ind], cantidad[n], producto[n]);
+        printf("La fabrica %s tiene suficiente inventario para producir %d %s.\n", tex[ind2], cantidad[n], producto[n]);
+        if (confir == 5 && ind == 0)
+        {
             printf("Desea fabricarlos? (1) Si (2) No: ");
             do
             {
@@ -502,13 +512,9 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
                 {
                     cantInv[i] -= compoTotales[i];
                 }
-                tiempoLim[n] = 0.0f;
+                tiempoLim[n] = 0.0;
                 cantidad[n] = 0;
             }
-        }
-        else
-        {
-            printf("La fabrica no tiene suficiente inventario para producir %d %s.\n", cantidad[n], producto[n]);
         }
     }
 }
