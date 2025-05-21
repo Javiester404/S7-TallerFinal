@@ -40,15 +40,20 @@ int registrarInventario(char nombresInv[5][50], int cantInv[5], int *contInv)
 
 int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5], int tp1)
 {
+    if (*contInv < 1)
+    {
+        printf("No hay un inventario registrado\n");
+        return 0;
+    }
     int v, opc2;
-printf("-------------------------------------------------------------\n");
-printf("| #  | Nombre del componente             | Stock            |\n");
-printf("-------------------------------------------------------------\n");
-for (int i = 0; i < *contInv; i++)
-{
-    printf("| %-2d | %-32s | %-16d |\n", i + 1, nombresInv[i], cantInv[i]);
-}
-printf("-------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------\n");
+    printf("| #  | Nombre del componente             | Stock            |\n");
+    printf("-------------------------------------------------------------\n");
+    for (int i = 0; i < *contInv; i++)
+    {
+        printf("| %-2d | %-32s | %-16d |\n", i + 1, nombresInv[i], cantInv[i]);
+    }
+    printf("-------------------------------------------------------------\n");
 
     if (tp1 == 2)
     {
@@ -73,15 +78,16 @@ int menu()
 {
     int opc, v1;
     printf("\n****MENU DE STOCKRO****\n");
-    printf("1. Mostrar Inventario\n");
-    printf("2. Registrar un producto\n");
-    printf("3. Mostrar informacion del producto\n");
-    printf("4. Edicion de un producto\n");
-    printf("5. Eliminar un producto\n");
-    printf("6. Seleccionar producto a producir\n");
-    printf("7. Mostrar pedidos realizados\n");
-    printf("8. Reabastecer inventario\n");
-    printf("9. Salir\n");
+    printf("1. Ingresar inventario\n");
+    printf("2. Mostrar Inventario\n");
+    printf("3. Registrar un producto\n");
+    printf("4. Mostrar informacion del producto\n");
+    printf("5. Edicion de un producto\n");
+    printf("6. Eliminar un producto\n");
+    printf("7. Seleccionar producto a producir\n");
+    printf("8. Mostrar pedidos realizados\n");
+    printf("9. Reabastecer inventario\n");
+    printf("10. Salir\n");
     printf(">>>");
     do
     {
@@ -101,29 +107,20 @@ void registrarProducto(char producto[5][50], int cantidad[5], float tiempo[5], f
         printf("No se pueden ingresar mas productos.\n");
         return;
     }
+    if (*contInv < 1)
+    {
+        printf("No hay un inventario registrado\n");
+        return;
+    }
     int v, v2, v3, v4;
-
     printf("Ingrese el nombre del producto:\n");
     fflush(stdin);
     fgets(producto[*cont], 50, stdin);
     producto[*cont][strcspn(producto[*cont], "\n")] = 0;
+
     do
     {
-        printf("Ingrese la cantidad demandada del producto:\n");
-        fflush(stdin);
-        v3 = scanf("%d", &cantidad[*cont]);
-        if (v3 != 1)
-        {
-            printf("Error al ingresar la cantidad. Debe ser un numero entero.\n");
-        }
-        else if (cantidad[*cont] < 0)
-        {
-            printf("No se admiten cantidades negativas.\n");
-        }
-    } while (v3 != 1 || cantidad[*cont] < 0);
-    do
-    {
-        printf("Ingrese el tiempo de fabricacion para cada producto:\n");
+        printf("Ingrese el tiempo de fabricacion para cada producto (En horas):\n");
         fflush(stdin);
         v = scanf("%f", &tiempo[*cont]);
         if (v != 1)
@@ -135,20 +132,6 @@ void registrarProducto(char producto[5][50], int cantidad[5], float tiempo[5], f
             printf("No se admiten tiempos de fabricacion negativos\n");
         }
     } while (v != 1 || tiempo[*cont] < 0);
-    do
-    {
-        printf("Ingrese el tiempo limite para producir el producto:\n");
-        fflush(stdin);
-        v4 = scanf("%f", &tiempoLim[*cont]);
-        if (v4 != 1)
-        {
-            printf("Error al ingresar el tiempo limite para producir el producto. Debe ser un numero entero\n");
-        }
-        else if (tiempoLim[*cont] < 0)
-        {
-            printf("No se admiten tiempos limite de produccion negativos.\n");
-        }
-    } while (v4 != 1 || tiempoLim[*cont] < 0);
     printf("Ingrese la cantidad de recursos necesarios para cada producto:\n");
     for (int i = 0; i < *contInv; i++)
     {
@@ -179,17 +162,17 @@ int tablaDeProductos(int *cont, char producto[5][50], int cantidad[5], float tie
         printf("No hay productos ingresados\n");
         return 0;
     }
-    
+
     int opc1, v1;
 
     printf("--Lista de productos--\n");
-    printf("-------------------------------------------------------------------------------\n");
-    printf("| # | Nombre              | Cantidad Demandada | Tiempo Fab. (h) | Tiempo Limite (h) |\n");
-    printf("-------------------------------------------------------------------------------\n");
+    printf("---------------------------------------------------\n");
+    printf("| # | Nombre              | Tiempo Fab. (h) |\n");
+    printf("---------------------------------------------------\n");
 
     for (int i = 0; i < *cont; i++)
     {
-        printf("| %-2d | %-18s | %-17d | %-15.2f | %-18.2f |\n", i + 1, producto[i], cantidad[i], tiempo[i], tiempoLim[i]);
+        printf("| %-2d | %-18s | %-15.2f |\n", i + 1, producto[i], tiempo[i]);
     }
     printf("-------------------------------------------------------------------------------\n");
     printf("\n-- Componentes necesarios por producto --\n");
@@ -244,14 +227,12 @@ int editarProducto(int *cont, char producto[5][50], int cantidad[5], float tiemp
     int v, ind, v3, v1, v4, v2, v5, v6, v7, v8, n = opc1 - 1;
     printf("Que desea editar?\n");
     printf("1. Nombre: %s\n", producto[n]);
-    printf("2. Cantidad demandada: %d\n", cantidad[n]);
-    printf("3. Tiempo Limite: %.2f\n", tiempoLim[n]);
-    printf("4. Tiempo de produccion por unidad de producto: %.2f\n", tiempo[n]);
-    printf("5. %s: %d\n", nombresInv[0], comProdu[n][0]);
-    printf("6. %s: %d\n", nombresInv[1], comProdu[n][1]);
-    printf("7. %s: %d\n", nombresInv[2], comProdu[n][2]);
-    printf("8. %s: %d\n", nombresInv[3], comProdu[n][3]);
-    printf("9. %s: %d\n", nombresInv[4], comProdu[n][4]);
+    printf("2. Tiempo de produccion por unidad de producto: %.2f\n", tiempo[n]);
+    printf("3. %s: %d\n", nombresInv[0], comProdu[n][0]);
+    printf("4. %s: %d\n", nombresInv[1], comProdu[n][1]);
+    printf("5. %s: %d\n", nombresInv[2], comProdu[n][2]);
+    printf("6. %s: %d\n", nombresInv[3], comProdu[n][3]);
+    printf("7. %s: %d\n", nombresInv[4], comProdu[n][4]);
     do
     {
         printf("Ingrese una opcion: ");
@@ -278,24 +259,6 @@ int editarProducto(int *cont, char producto[5][50], int cantidad[5], float tiemp
     {
         do
         {
-            printf("Ingrese la nueva cantidad demandada del producto:\n");
-            fflush(stdin);
-            v3 = scanf("%d", &cantidad[opc1 - 1]);
-            if (v3 != 1)
-            {
-                printf("Error al ingresar la cantidad. Debe ser un numero entero.\n");
-            }
-            else if (cantidad[opc1 - 1] < 0)
-            {
-                printf("No se admiten cantidades negativas.\n");
-            }
-        } while (v3 != 1 || cantidad[opc1 - 1] < 0);
-        printf("Modificacion realizada con exito");
-    }
-    else if (ind == 3)
-    {
-        do
-        {
             printf("Ingrese el nuevo tiempo de fabricacion para cada producto:\n");
             fflush(stdin);
             v1 = scanf("%f", &tiempo[opc1 - 1]);
@@ -310,25 +273,7 @@ int editarProducto(int *cont, char producto[5][50], int cantidad[5], float tiemp
         } while (v1 != 1 || tiempo[opc1 - 1] < 0);
         printf("Modificacion realizada con exito");
     }
-    else if (ind == 4)
-    {
-        do
-        {
-            printf("Ingrese el nuevo tiempo limite para producir el producto:\n");
-            fflush(stdin);
-            v4 = scanf("%f", &tiempoLim[opc1 - 1]);
-            if (v4 != 1)
-            {
-                printf("Error al ingresar el tiempo limite para producir el producto. Debe ser un numero entero\n");
-            }
-            else if (tiempoLim[opc1 - 1] < 0)
-            {
-                printf("No se admiten tiempos limite de produccion negativos.\n");
-            }
-        } while (v4 != 1 || tiempoLim[opc1 - 1] < 0);
-        printf("Modificacion realizada con exito");
-    }
-    else if (ind == 5)
+    else if (ind == 3)
     {
         do
         {
@@ -346,7 +291,7 @@ int editarProducto(int *cont, char producto[5][50], int cantidad[5], float tiemp
         } while (v2 != 1 || comProdu[n][0] < 0);
         printf("Modificacion realizada con exito");
     }
-    else if (ind == 6)
+    else if (ind == 4)
     {
         do
         {
@@ -364,7 +309,7 @@ int editarProducto(int *cont, char producto[5][50], int cantidad[5], float tiemp
         } while (v5 != 1 || comProdu[n][1] < 0);
         printf("Modificacion realizada con exito");
     }
-    else if (ind == 7)
+    else if (ind == 5)
     {
         do
         {
@@ -382,7 +327,7 @@ int editarProducto(int *cont, char producto[5][50], int cantidad[5], float tiemp
         } while (v6 != 1 || comProdu[n][2] < 0);
         printf("Modificacion realizada con exito");
     }
-    else if (ind == 8)
+    else if (ind == 6)
     {
         do
         {
@@ -401,7 +346,7 @@ int editarProducto(int *cont, char producto[5][50], int cantidad[5], float tiemp
         } while (v7 != 1 || comProdu[n][3] < 0);
         printf("Modificacion realizada con exito");
     }
-    else if (ind == 5)
+    else if (ind == 7)
     {
         do
         {
@@ -427,7 +372,6 @@ int eliminarProducto(int *cont, char producto[5][50], int cantidad[5], float tie
         printf("No hay productos registrados para eliminar.\n");
         return 0;
     }
-
     int index = opc1 - 1;
     if (index < 0 || index >= *cont)
     {
@@ -462,7 +406,7 @@ int eliminarProducto(int *cont, char producto[5][50], int cantidad[5], float tie
 int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], char nombresInv[5][50], int comProdu[5][5], int cantInv[5], int *contInv, int opc1, char nombPedidos[10][50], int cantPedidos[10], int *contPedidos)
 {
     char tex[2][3] = {"Si", "No"};
-    int tiemTotal, ind, n = opc1 - 1, confir = 0, v, opc;
+    int tiemTotal, ind, n = opc1 - 1, confir = 0, v, opc,v3,v4;
     int compoTotales[5];
     if (*cont == 0)
     {
@@ -471,10 +415,40 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
     else
     {
         printf("Producto seleccionado: %s\n", producto[n]);
+        do
+        {
+            printf("Ingrese la cantidad demandada del producto:\n");
+            fflush(stdin);
+            v3 = scanf("%d", &cantidad[n]);
+            if (v3 != 1)
+            {
+                printf("Error al ingresar la cantidad. Debe ser un numero entero.\n");
+            }
+            else if (cantidad[n] < 0)
+            {
+                printf("No se admiten cantidades negativas.\n");
+            }
+        } while (v3 != 1 || cantidad[n] < 0);
+        do
+        {
+            printf("Ingrese el tiempo limite para producir el producto (En horas):\n");
+            fflush(stdin);
+            v4 = scanf("%f", &tiempoLim[n]);
+            if (v4 != 1)
+            {
+                printf("Error al ingresar el tiempo limite para producir el producto. Debe ser un numero entero\n");
+            }
+            else if (tiempoLim[n] < 0)
+            {
+                printf("No se admiten tiempos limite de produccion negativos\n");
+            }
+        } while (v4 != 1 || tiempoLim[*cont] < 0);
+        printf("Resumen del Producto\n");
+        printf("Producto seleccionado: %s\n", producto[n]);
         printf("Cantidad: %d\n", cantidad[n]);
         printf("Tiempo de fabricacion: %.2f\n", tiempo[n]);
         printf("Tiempo limite: %.2f\n", tiempoLim[n]);
-        printf("Componentes necesarios:");
+        printf("Componentes necesarios:\n");
         printf("%s: %d\n", nombresInv[0], comProdu[n][0]);
         printf("%s: %d\n", nombresInv[1], comProdu[n][1]);
         printf("%s: %d\n", nombresInv[2], comProdu[n][2]);
@@ -528,7 +502,8 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
                 {
                     cantInv[i] -= compoTotales[i];
                 }
-                eliminarProducto(cont, producto, cantidad, tiempo, tiempoLim, nombresInv, comProdu, contInv, opc1);
+                tiempoLim[n] = 0.0f;
+                cantidad[n] = 0;
             }
         }
         else
@@ -554,9 +529,14 @@ void mostrarPedidos(char nombPedidos[10][50], int cantPedidos[10], int *contPedi
         printf("| %-2d | %-18s | %-17d |\n", i + 1, nombPedidos[i], cantPedidos[i]);
     }
 }
-void reabastecerInv(char nombresInv[5][50], int cantInv[5], int opc2)
+void reabastecerInv(char nombresInv[5][50], int cantInv[5], int opc2, int *contInv)
 {
     int n = opc2 - 1, cantReabastecer, v;
+    if (*contInv < 1)
+    {
+        printf("No hay un inventario registrado\n");
+        return;
+    }
     printf("Componente seleccionado: %s\n", nombresInv[n]);
     do
     {

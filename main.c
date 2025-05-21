@@ -23,55 +23,57 @@ int main(int argc, char *argv[])
     char nombPedidos[10][50];
     int cantPedidos[10];
     int opc, opc1, opc2, cont = 0, contInv = 0, tp, tp1, contPedidos = 0;
-    registrarInventario(nombresInv, cantInv, &contInv);
+    
     do
     {
         opc = menu();
         switch (opc)
         {
         case 1:
+            registrarInventario(nombresInv, cantInv, &contInv);
+            break;
+        case 2:
             tp1 = 1;
             tablaDeInventario(&contInv, nombresInv, cantInv, tp1);
             break;
-        case 2:
+        case 3:
             registrarProducto(producto, cantidad, tiempo, tiempoLim, comProdu, nombresInv, &cont, &contInv);
             break;
-        case 3:
+        case 4:
             tp = 1;
             tablaDeProductos(&cont, producto, cantidad, tiempo, tiempoLim, comProdu, nombresInv, &contInv, tp);
             break;
-        case 4:
+        case 5:
             tp = 2;
             opc1 = tablaDeProductos(&cont, producto, cantidad, tiempo, tiempoLim, comProdu, nombresInv, &contInv, tp);
             editarProducto(&cont, producto, cantidad, tiempo, tiempoLim, nombresInv, comProdu, &contInv, opc1);
             break;
-        case 5:
+        case 6:
             tp = 3;
             opc1 = tablaDeProductos(&cont, producto, cantidad, tiempo, tiempoLim, comProdu, nombresInv, &contInv, tp);
             eliminarProducto(&cont, producto, cantidad, tiempo, tiempoLim, nombresInv, comProdu, &contInv, opc1);
             break;
-        case 6:
+        case 7:
             tp = 4;
             opc1 = tablaDeProductos(&cont, producto, cantidad, tiempo, tiempoLim, comProdu, nombresInv, &contInv, tp);
             mostrarResultados(&cont, producto, cantidad, tiempo, tiempoLim, nombresInv, comProdu, cantInv, &contInv, opc1, nombPedidos, cantPedidos, &contPedidos);
-
-            break;
-        case 7:
-            mostrarPedidos(nombPedidos, cantPedidos, &contPedidos);
             break;
         case 8:
-            tp1 = 2;
-            opc2 = tablaDeInventario(&contInv, nombresInv, cantInv, tp1);
-            reabastecerInv(nombresInv, cantInv, opc2);
+            mostrarPedidos(nombPedidos, cantPedidos, &contPedidos);
             break;
         case 9:
+            tp1 = 2;
+            opc2 = tablaDeInventario(&contInv, nombresInv, cantInv, tp1);
+            reabastecerInv(nombresInv, cantInv, opc2, &contInv);
+            break;
+        case 10:
             printf("Gracias por usar el programa\n");
             break;
         default:
             printf("Opcion no valida\n");
             break;
         }
-    } while (opc != 9);
+    } while (opc != 10);
 
     return 0;
 }
