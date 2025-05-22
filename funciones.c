@@ -422,7 +422,7 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
             v3 = scanf("%d", &cantidad[n]);
             if (v3 != 1)
             {
-                printf("Error al ingresar la cantidad. Debe ser un numero entero.\n");
+                printf("Error al ingresar la cantidad. Debe ser un numero entero\n");
             }
             else if (cantidad[n] <= 0)
             {
@@ -440,9 +440,9 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
             }
             else if (tiempoLim[n] <= 0)
             {
-                printf("No se admiten tiempos limite de produccion negativos\n");
+                printf("No se admiten tiempos limite de produccion menores a 0\n");
             }
-        } while (v4 != 1 || tiempoLim[*cont] <= 0);
+        } while (v4 != 1 || tiempoLim[n] <= 0);
         printf("***********Resumen del Producto***********\n");
         printf("Producto seleccionado: %s\n", producto[n]);
         printf("Cantidad: %d\n", cantidad[n]);
@@ -514,6 +514,10 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
                 }
                 tiempoLim[n] = 0.0;
                 cantidad[n] = 0;
+            }
+            else if (opc == 2)
+            {
+                printf("La fabrica no producira %d %s.\n", cantidad[n], producto[n]);
             }
         }
     }
