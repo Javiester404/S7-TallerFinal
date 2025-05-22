@@ -66,11 +66,11 @@ int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5], int 
             {
                 printf("Error al ingresar el componente. Debe ser un numero entero.\n");
             }
-            else if (opc2 < 0)
+            else if (opc2 < 1 || opc2 > *contInv)
             {
-                printf("No se admiten cantidades negativas\n");
+                printf("No se admiten cantidades menores a 0\n");
             }
-        } while (v != 1 || opc2 < 0);
+        } while (v != 1 || opc2 < 1 || opc2 > *contInv);
         return opc2;
     }
 }
@@ -557,10 +557,10 @@ void reabastecerInv(char nombresInv[5][50], int cantInv[5], int opc2, int *contI
         {
             printf("Error al ingresar la cantidad. Debe ser un numero entero.\n");
         }
-        else if (cantReabastecer < 0)
+        else if (cantReabastecer <= 0)
         {
-            printf("No se admiten cantidades negativas\n");
+            printf("No se admiten cantidades menores a 0\n");
         }
-    } while (v != 1 || cantReabastecer < 0);
+    } while (v != 1 || cantReabastecer <= 0);
     cantInv[n] += cantReabastecer;
 }
