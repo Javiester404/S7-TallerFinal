@@ -8,3 +8,4 @@ int registrarInventario(char nombresInv[5][50], int cantInv[5], int *contInv);
 int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5], int tp1);
 void mostrarPedidos(char nombPedidos[10][50], int cantPedidos[10], int *contPedidos);
 void reabastecerInv(char nombresInv[5][50], int cantInv[5], int opc2, int *contInv);
+void editarInv(char nombresInv[5][50], int cantInv[5], int opc2, int *contInv);

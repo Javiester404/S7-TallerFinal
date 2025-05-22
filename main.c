@@ -67,13 +67,18 @@ int main(int argc, char *argv[])
             reabastecerInv(nombresInv, cantInv, opc2, &contInv);
             break;
         case 10:
+            tp1 = 3;
+            opc2 = tablaDeInventario(&contInv, nombresInv, cantInv, tp1);
+            editarInv(nombresInv, cantInv, opc2, &contInv);
+            break;
+        case 11:
             printf("Gracias por usar el programa\n");
             break;
         default:
             printf("Opcion no valida\n");
             break;
         }
-    } while (opc != 10);
+    } while (opc != 11);
 
     return 0;
 }

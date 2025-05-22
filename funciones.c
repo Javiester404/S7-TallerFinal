@@ -19,7 +19,8 @@ int registrarInventario(char nombresInv[5][50], int cantInv[5], int *contInv)
             if (v != 1)
             {
                 printf("Error al ingresar la cantidad, se deben ingresar solo numeros enteros\n");
-                while (getchar() != '\n');
+                while (getchar() != '\n')
+                    ;
             }
             else if (cantInv[i] < 0)
             {
@@ -73,6 +74,24 @@ int tablaDeInventario(int *contInv, char nombresInv[5][50], int cantInv[5], int 
         } while (v != 1 || opc2 < 1 || opc2 > *contInv);
         return opc2;
     }
+    else if (tp1 == 3)
+    {
+        do
+        {
+            printf("Seleccione el componente a editar: ");
+            fflush(stdin);
+            v = scanf("%d", &opc2);
+            if (v != 1)
+            {
+                printf("Error al ingresar el componente. Debe ser un numero entero.\n");
+            }
+            else if (opc2 < 1 || opc2 > *contInv)
+            {
+                printf("No se admiten cantidades menores a 0\n");
+            }
+        } while (v != 1 || opc2 < 1 || opc2 > *contInv);
+        return opc2;
+    }
 }
 int menu()
 {
@@ -87,7 +106,8 @@ int menu()
     printf("7. Seleccionar producto a producir\n");
     printf("8. Mostrar pedidos realizados\n");
     printf("9. Reabastecer inventario\n");
-    printf("10. Salir\n");
+    printf("10. Editar Inventario\n");
+    printf("11. Salir\n");
     printf(">>>");
     do
     {
@@ -406,7 +426,7 @@ int eliminarProducto(int *cont, char producto[5][50], int cantidad[5], float tie
 int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float tiempo[5], float tiempoLim[5], char nombresInv[5][50], int comProdu[5][5], int cantInv[5], int *contInv, int opc1, char nombPedidos[10][50], int cantPedidos[10], int *contPedidos)
 {
     char tex[2][3] = {"SI", "NO"};
-    int tiemTotal, ind, ind2, n = opc1 - 1, confir = 0, v, opc,v3,v4;
+    int tiemTotal, ind, ind2, n = opc1 - 1, confir = 0, v, opc, v3, v4;
     int compoTotales[5];
     if (*cont == 0)
     {
@@ -481,8 +501,6 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
             {
                 ind2 = 1;
             }
-            
-            
         }
         printf("La fabrica %s cumple con el tiempo necesario para producir %d %s\n", tex[ind], cantidad[n], producto[n]);
         printf("La fabrica %s tiene suficiente inventario para producir %d %s.\n", tex[ind2], cantidad[n], producto[n]);
@@ -563,4 +581,58 @@ void reabastecerInv(char nombresInv[5][50], int cantInv[5], int opc2, int *contI
         }
     } while (v != 1 || cantReabastecer <= 0);
     cantInv[n] += cantReabastecer;
+}
+void editarInv(char nombresInv[5][50], int cantInv[5], int opc2, int *contInv)
+{
+    int n = opc2 - 1, cantNueva, v, v2, opcion;
+    if (*contInv < 1)
+    {
+        printf("No hay un inventario registrado\n");
+        return;
+    }
+    printf("Componente seleccionado: %s\n", nombresInv[n]);
+    printf("Que desea editar?\n");
+    printf("1. Nombre\n");
+    printf("2. Cantidad\n");
+    do
+    {
+        printf(">>> ");
+        fflush(stdin);
+        v = scanf("%d", &opcion);
+        if (v != 1)
+        {
+            printf("Error al ingresar la opcion. Debe ser un numero entero.\n");
+        }
+        else if (opcion < 1 || opcion > 2)
+        {
+            printf("No se admiten cantidades menores a 1\n");
+        }
+    } while (v != 1 || opcion < 1 || opcion > 2);
+    if (opcion == 1)
+    {
+        printf("Ingrese el nuevo nombre del componente: ");
+        fflush(stdin);
+        fgets(nombresInv[n], 50, stdin);
+        nombresInv[n][strcspn(nombresInv[n], "\n")] = 0;
+        printf("Modificacion realizada con exito");
+    }
+    if (opcion == 2)
+    {
+        do
+        {
+            printf("Ingrese el nuevo valor del inventario: ");
+            fflush(stdin);
+            v = scanf("%d", &cantNueva);
+            if (v != 1)
+            {
+                printf("Error al ingresar la cantidad. Debe ser un numero entero.\n");
+            }
+            else if (cantNueva < 0)
+            {
+                printf("No se admiten cantidades menores a 0\n");
+            }
+        } while (v != 1 || cantNueva < 0);
+        cantInv[n] = cantNueva;
+        printf("Modificacion realizada con exito");
+    }
 }
