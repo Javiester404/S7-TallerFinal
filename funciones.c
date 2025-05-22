@@ -127,11 +127,11 @@ void registrarProducto(char producto[5][50], int cantidad[5], float tiempo[5], f
         {
             printf("Error al ingresar el tiempo de fabricacion. Debe ser un numero entero\n");
         }
-        else if (tiempo[*cont] < 0)
+        else if (tiempo[*cont] <= 0)
         {
-            printf("No se admiten tiempos de fabricacion negativos\n");
+            printf("No se admiten tiempos de fabricacion menores a 0\n");
         }
-    } while (v != 1 || tiempo[*cont] < 0);
+    } while (v != 1 || tiempo[*cont] <= 0);
     printf("Ingrese la cantidad de recursos necesarios para cada producto:\n");
     for (int i = 0; i < *contInv; i++)
     {
@@ -174,7 +174,7 @@ int tablaDeProductos(int *cont, char producto[5][50], int cantidad[5], float tie
     {
         printf("| %-2d | %-18s | %-15.2f |\n", i + 1, producto[i], tiempo[i]);
     }
-    printf("-------------------------------------------------------------------------------\n");
+    printf("------------------------------------------------------\n");
     printf("\n-- Componentes necesarios por producto --\n");
     for (int i = 0; i < *cont; i++)
     {
@@ -424,11 +424,11 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
             {
                 printf("Error al ingresar la cantidad. Debe ser un numero entero.\n");
             }
-            else if (cantidad[n] < 0)
+            else if (cantidad[n] <= 0)
             {
                 printf("No se admiten cantidades negativas.\n");
             }
-        } while (v3 != 1 || cantidad[n] < 0);
+        } while (v3 != 1 || cantidad[n] <= 0);
         do
         {
             printf("Ingrese el tiempo limite para producir el producto (En horas):\n");
@@ -438,11 +438,11 @@ int mostrarResultados(int *cont, char producto[5][50], int cantidad[5], float ti
             {
                 printf("Error al ingresar el tiempo limite para producir el producto. Debe ser un numero entero\n");
             }
-            else if (tiempoLim[n] < 0)
+            else if (tiempoLim[n] <= 0)
             {
                 printf("No se admiten tiempos limite de produccion negativos\n");
             }
-        } while (v4 != 1 || tiempoLim[*cont] < 0);
+        } while (v4 != 1 || tiempoLim[*cont] <= 0);
         printf("***********Resumen del Producto***********\n");
         printf("Producto seleccionado: %s\n", producto[n]);
         printf("Cantidad: %d\n", cantidad[n]);
